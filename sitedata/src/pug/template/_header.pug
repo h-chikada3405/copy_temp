@@ -1,0 +1,17 @@
+//- テンプレートパーツ用 TOPCMS 呼び出し（以下の 4 行で一塊です。）
+//- if pageList[pageNumber]['fileExtension'] == 'php'
+//-   :php echo output('default', array("limit" => 1), "tel");
+//- else
+//-   //#include virtual="topcms/master/output.php?target=default&template=tel&limit=1"
+
+header.header
+  nav.nav
+    ul.nav_hd
+      each page in pageList
+        li
+          a(href=page['fileName']+'.'+page['fileExtension']) #{page['ja']}
+.mainimg
+  if pageList[pageNumber]['fileName'] == "index"
+    //- index のみで表示させたい内容を記述
+  else
+    //- index 以外で表示させたい内容を記述

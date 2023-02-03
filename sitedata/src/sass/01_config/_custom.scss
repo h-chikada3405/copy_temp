@@ -1,0 +1,89 @@
+@use "sass:math";
+
+/*-------------------------------------------------------------------------------
+  font setting
+--------------------------------------------------------------------------------*/
+$root-font-size: 16;
+$font-family: "ヒラギノ角ゴシック Pro", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, sans-serif;
+$font-size: 14;
+$line-height: 1.8;
+
+// Gutenberg カスタムフォントサイズ function.php のサイズと同期要
+$font-sizes: (
+  "x-small": 10,
+  "small": 12,
+  "regular": $font-size,
+  "large": 24,
+  "x-large": 36,
+);
+
+/*-------------------------------------------------------------------------------
+  contents size
+--------------------------------------------------------------------------------*/
+$content-size: 1000px;
+
+/*-------------------------------------------------------------------------------
+  space setting
+--------------------------------------------------------------------------------*/
+$space-size: 10px;
+
+$base-space: $space-size * 2; // 標準（PCサイト）
+$sm-base-space: $space-size; // スマホ（max-width:480px）
+$md-base-space: $space-size * 1.5; // タブレット[iPad以下]（max-width:768px）
+
+$block-v-space: $space-size * 2; // ブロック縦スペース標準（PCサイト）
+$sm-block-v-space: $space-size; // ブロック縦スペーススマホ（max-width:480px）
+
+/*-------------------------------------------------------------------------------
+  color setting
+--------------------------------------------------------------------------------*/
+$base-color: #f2f2f2;
+$base-sub-color: #ccc;
+$main-color: #0086d3;
+$main-sub-color: #003554;
+$accent-color: #f17828;
+$support-color: #a8c417;
+
+$bk-color: $base-color;
+$link-color: $main-color;
+$font-color: #222;
+$font-sub-color: #999;
+$font-reverse-color: #fff;
+$border-color: $base-sub-color;
+$border-sub-color: #999;
+
+$success-color: $support-color;
+$error-color: #ffe713;
+$alert-color: #a00;
+
+/*-------------------------------------------------------------------------------
+  border setting
+--------------------------------------------------------------------------------*/
+$border-size: 1px;
+$base-border: $border-size;
+$bold-base-border: $border-size * 4;
+$border-radius: 5px;
+
+/*-------------------------------------------------------------------------------
+  gutenberg color palette setting
+  ※ 色を変更する場合は inc/custom.php の top_editor_color_palette 関数も編集要
+--------------------------------------------------------------------------------*/
+$color-palette: (
+  base: $base-color,
+  base-sub: $base-sub-color,
+  main: $main-color,
+  main-sub: $main-sub-color,
+  accent: $accent-color,
+  support: $support-color,
+  font: $font-color,
+  font-sub: $font-sub-color,
+  font-reverse: $font-reverse-color,
+  link: $link-color,
+  success: $support-color,
+  error: $error-color,
+  alert: $alert-color,
+  white: #fff,
+  black: #222,
+);
+
+$opacity: 0.6;

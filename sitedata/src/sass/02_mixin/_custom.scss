@@ -1,0 +1,204 @@
+@use "sass:math";
+@use "01_config" as *;
+@use "./__common" as *;
+
+/*-------------------------------------------------------------------------------
+  wrapper
+--------------------------------------------------------------------------------*/
+@mixin wrapper {
+  width: 80vw;
+  margin: 0 auto;
+
+  @include media-query($md) {
+    width: 90vw;
+  } // @include media-query($md)
+
+  @include media-query($sm) {
+    width: calc(100% - #{$sm-base-space} * 2);
+  } // @include media-query($sm)
+} // @mixin wrapper
+
+/*-------------------------------------------------------------------------------
+  txt_basic-sub
+--------------------------------------------------------------------------------*/
+@mixin txt_basic-sub {
+  margin: 0.2em 0 0;
+  color: $font-sub-color;
+  @include font-size(floor($font-size * 0.9));
+} // @mixin txt_basic-sub
+
+/*-------------------------------------------------------------------------------
+  btn_basic-input
+--------------------------------------------------------------------------------*/
+@mixin btn_basic-input {
+  display: inline-block;
+  color: $font-color;
+  background: $base-sub-color;
+  padding: calc($base-space / 2) 2em;
+  @include font-size($font-size);
+  border-radius: $border-radius;
+  opacity: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s;
+
+  @include media-query($sm) {
+    padding: calc($sm-base-space / 2) 2em;
+  } // @include media-query($sm)
+
+  &:hover {
+    opacity: $opacity;
+  } // &:hover
+} // @mixin btn_basic-input
+
+/*-------------------------------------------------------------------------------
+  btn_solid-input
+--------------------------------------------------------------------------------*/
+@mixin btn_solid-input {
+  box-shadow: 0px -4px 0px 0px rgba(#000, 0.4) inset;
+  padding: calc($base-space / 2) 2em calc(#{$base-space} / 2 + 4px);
+  transition: none;
+
+  @include media-query($sm) {
+    padding: calc($sm-base-space / 2) 2em calc(#{$sm-base-space} / 2 + 4px);
+  } // @include media-query($sm)
+
+  &:hover {
+    opacity: 1;
+  } // &:hover
+
+  &:active {
+    padding: calc($base-space / 2) 2em;
+    margin-bottom: 4px;
+    box-shadow: none;
+    transform: translateY(2px);
+
+    @include media-query($sm) {
+      padding: calc($sm-base-space / 2) 2em;
+    } // @include media-query($sm)
+  } // &:hover
+} // @mixin btn_solid-input
+
+/*-------------------------------------------------------------------------------
+  link_basic
+--------------------------------------------------------------------------------*/
+@mixin link_basic {
+  color: currentColor;
+  text-decoration: none;
+  transition: all 0.3s;
+  @content;
+
+  &:hover {
+    opacity: $opacity;
+  } // &:hover
+} // @mixin link_basic
+
+/*-------------------------------------------------------------------------------
+  tbl_basic
+--------------------------------------------------------------------------------*/
+@mixin tbl_basic {
+  width: 100%;
+  th {
+    font-weight: bold;
+    background: $base-sub-color;
+  } // th
+
+  th,
+  td {
+    border: solid $base-border $border-color;
+    padding: calc($base-space / 2) $base-space;
+    line-height: 1.4;
+
+    @include media-query($sm) {
+      padding: calc($sm-base-space / 2) $sm-base-space;
+    }
+  } // th, td
+} // @mixin tbl_basic
+
+/*-------------------------------------------------------------------------------
+  txt_basic-sub
+--------------------------------------------------------------------------------*/
+@mixin txt_basic-sub {
+  margin: 0.2em 0 0;
+  color: $font-sub-color;
+  @include font-size(floor($font-size * 0.9));
+} // @mixin txt_basic-sub
+
+/*-------------------------------------------------------------------------------
+  input_basic
+--------------------------------------------------------------------------------*/
+@mixin input_basic {
+  -webkit-appearance: none;
+  border: solid $base-border $border-color;
+  @include font-size(16);
+  padding: 0.2rem 0.4rem;
+  width: 100%;
+
+  &::placeholder {
+    color: $font-sub-color;
+  } // &::placeholder
+} // @mixin input_basic
+
+@mixin select_basic {
+  overflow: hidden;
+  text-align: center;
+  position: relative;
+  border: solid $base-border $border-color;
+  outline: none;
+
+  &::before {
+    position: absolute;
+    top: 0.9rem;
+    right: 0.9rem;
+    width: 0;
+    height: 0;
+    padding: 0;
+    content: "";
+    border-top: 8px solid $border-sub-color;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    pointer-events: none;
+  } // &::before
+
+  &:after {
+    position: absolute;
+    top: 0;
+    right: 2.5rem;
+    bottom: 0;
+    width: 1px;
+    content: "";
+    border-left: 1px solid $border-color;
+  } // &:after
+
+  select {
+    @include font-size(16);
+    width: 100%;
+    cursor: pointer;
+    text-indent: 0.01px;
+    padding: 0.2rem 2.9rem 0.2rem 0.4rem;
+    outline: none;
+
+    &::-ms-expand {
+      display: none;
+    } // &::-ms-expand
+  } // select
+} // @mixin select_basic
+
+/*-------------------------------------------------------------------------------
+  transition
+--------------------------------------------------------------------------------*/
+@mixin transition($time: 0.3s, $easing: ease) {
+  transition: all $time $easing;
+} // transition
+
+/*-------------------------------------------------------------------------------
+  iconFont
+--------------------------------------------------------------------------------*/
+@mixin iconFont($code, $size: 16, $weight: 400, $fontName: Font Awesome 6 Pro) {
+  content: unquote('"') + unquote(str-insert($code, "\\", 1)) + unquote('"');
+  display: inline-block;
+  font-family: "#{$fontName}";
+  @include font-size($size);
+  color: $font-color;
+  font-weight: $weight;
+} // iconFont($code, $size: 16, $weight: 400, $fontName: Font Awesome 6 Pro)

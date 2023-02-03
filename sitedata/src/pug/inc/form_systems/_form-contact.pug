@@ -1,0 +1,64 @@
+//- ＜＜お問い合わせフォーム用システム（入力側）＞＞
+-
+//- =================================================================================================
+    システム本体
+  ===================================================================================================
+.
+  <?php
+    session_save_path(dirname(__FILE__).'/sess');
+    ini_set("display_errors", 0);
+    session_start();
+
+    $name = "";
+    $tel = "";
+    $mail = "";
+    $content = "";
+
+    $security = "";
+    $submit = "";
+
+    $err_check = "";
+
+    if($_SERVER["REQUEST_METHOD"] != "POST"){
+      foreach ($_SESSION as $key => $value) {
+        if (preg_match("/^/", $key)) {
+          $$key = $value;
+        }
+      }
+    }
+
+    foreach ($_POST as $key => $value) {
+      if (preg_match("/^/", $key)) {
+        if(!is_array($value)){
+          $value = trim($value);
+          $value = mb_convert_kana($value, "aKV", "UTF-8");
+        }
+        $_SESSION[$key] = $value;
+        $$key = $value;
+      }
+    }
+
+    if (isset($_SERVER["HTTP_REFERER"]) && strstr($_SERVER["HTTP_REFERER"], $_SERVER["HTTP_HOST"]) && $security == session_id()) {
+      if (strlen($submit) > 0) {
+        $is_error = false;
+
+        /* check */
+        if (strlen($name) < 1) {
+          $is_error = true;
+        }
+        if (strlen($mail) < 1) {
+          $is_error = true;
+        }
+        if (strlen($content) < 1) {
+          $is_error = true;
+        }
+
+        if (!$is_error) {
+          unset($_SESSION["submit"]);
+          header("Location: submit.php");
+          exit();
+        }
+
+      }
+    }
+  ?>

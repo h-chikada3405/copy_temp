@@ -1,0 +1,62 @@
+@use "sass:math";
+
+/*-------------------------------------------------------------------------------
+  media query
+--------------------------------------------------------------------------------*/
+$sm: 480px;
+$md: 768px;
+$lg: 1024px;
+$xl: 1199px;
+
+/*-------------------------------------------------------------------------------
+  sns color
+--------------------------------------------------------------------------------*/
+$facebook: #3b5998;
+$twitter: #1da1f2;
+$pocket: #ef3f56;
+$hatena: #00a4de;
+$line: #00c300;
+$rss: #ffa500;
+$instagram: #e4405f;
+$youtube: #f00;
+$adobe: #f00;
+
+$sns: (
+  facebook: $facebook,
+  twitter: $twitter,
+  pocket: $pocket,
+  hatena: $hatena,
+  line: $line,
+  rss: $rss,
+  instagram: $instagram,
+  youtube: $youtube,
+  adobe: $adobe,
+);
+
+/*-------------------------------------------------------------------------------
+  topholdings logo color
+--------------------------------------------------------------------------------*/
+$top-orange: #ef8200;
+$top-red: #c6000b;
+$top-blue: #0098d8;
+$top-light-blue: #81c0e9;
+$securityhouse-blue: #0059af;
+$securityhouse-orange: #fe5b00;
+$securityhouse-red: #eb000f;
+$toptravel-blue: #0b318f;
+$toptrabel-orange: #ea5514;
+$goku-red: #d60e1f;
+$one-blue: #233e8f;
+$topholdings-blue: #182987;
+$topholdings-light-blue: #009fe8;
+$dainihon-gold: #96854b;
+$dainihon-grey: #595757;
+$torifoglio-blue: #193041;
+$rweddings-pink: #e4007f;
+$rweddings-purple: #920783;
+$rweddings-green: #8fc31f;
+$rweddings-light-green: #c9e2cf;
+$rweddings-brown: #4a2400;
+$topnagoya-orange: #f08300;
+$ecotec-light-green: #8dc21f;
+$aqpina-blue: #387dce;

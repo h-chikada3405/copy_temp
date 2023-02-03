@@ -1,0 +1,156 @@
+//- mixin
+
+//- ================================================================
+    boxer
+  ==================================================================
+  (string) imgPath : 呼び出したい画像のパス             必須
+  (string) alt     : 画像の alt に挿入したいテキスト    任意
+  (string) gallery : ギャラリー名                      任意
+  (string) anyClass: a に追加したい class              任意
+
+mixin boxer(imgPath, alt, gallery, anyClass)
+  a.boxer( class!=anyClass href=imgPath data-gallery=gallery )
+    img(src=imgPath, alt=alt)
+
+
+//- ================================================================
+    title
+  ==================================================================
+  (string) tag      : 要素タグ                 必須
+  (string) addClass : 要素に追加したい class    任意
+  (string) mainText : 一つ目のテキスト          任意
+  (string) subText  : 二つ目のテキスト          任意
+
+mixin title(tag="h2", addClass="ttl_cmn_01", mainText=pageList[pageNumber]['ja'], subText=pageList[pageNumber]['en'])
+  #{tag}(class!=addClass)
+    span.char_main!= mainText
+    if subText !== ''
+      span.char_sub!= subText
+
+
+
+//- ================================================================
+    tblContents
+  ==================================================================
+  (array) contents  : テーブルに挿入したい内容（※連想配列） 任意
+  (string) addClass : table に追加したい class             任意
+
+  ＜備考＞
+    contents の内容の例
+
+    var contents = {
+      'タイトル01':'内容01',
+      'タイトル02':'中身02',
+          ・
+          ・
+          ・
+      'タイトルn':'中身n'
+    }
+
+mixin tblContents(contents = '')
+  if contents == ''
+    -
+      var contents = {
+        '会社名':'株式会社テスト',
+        'TEL':'000-000-00000',
+        'FAX':'000-000-00000',
+        '住所':'〒000-0000<br>愛知県名古屋市中村区名駅5-17-3',
+        'ここに項目名が入ります。ここに項目名が入ります。ここに項目名が入ります。':'ここに内容が入ります。ここに内容が入ります。ここに内容が入ります。ここに内容が入ります。ここに内容が入ります。ここに内容が入ります。ここに内容が入ります。ここに内容が入ります。ここに内容が入ります。ここに内容が入ります。',
+        'ここに項目名が入ります。<br>ここに項目名が入ります。<br>ここに項目名が入ります。':'ここに内容が入ります。<br>ここに内容が入ります。<br>ここに内容が入ります。<br>ここに内容が入ります。<br>ここに内容が入ります。'
+      }
+  each value, key in contents
+    tr
+      th!= key
+      td!= value
+
+
+//- ================================================================
+    listContents
+  ==================================================================
+  (int) or (array) contents  : サンプルを表示したい数　or　リストに挿入したい内容 任意
+  (string) addClass : li に追加したい class   任意
+
+mixin listContents(contents = '', addClass)
+  - var n = 0
+  if contents > 0
+    -
+      var txt = 'ここに内容が入ります。'
+    while n < contents
+      li(class=addClass)!= txt
+      -
+        var n = n + 1
+        var txt = txt + txt
+  else
+    each value in contents
+      li!= value
+
+
+//- ================================================================
+    formSelect
+  ==================================================================
+  (string) formName       : select に追加したい name, id
+  (string) addClass       : select に追加したい class
+  (array) selectItem      : option に設定したい内容
+  (string) nonValueItem   : value の無い option のラベル
+
+mixin formSelect(formName="address01", addClass="", selectItem=prefectures, nonValueItem='')
+  select(name=formName id=formName class=addClass)
+    if selectItem == prefectures
+      - var nonValueItem = "都道府県"
+    if nonValueItem != ''
+      <option value="" <?php if(strlen($#{formName})<1) echo 'selected'; ?>>#{nonValueItem}</option>
+    each item in selectItem
+      <option value="#{item}" <?php if($#{formName}=="#{item}") echo 'selected'; ?>>#{item}</option>
+
+
+//- ================================================================
+    formInput
+  ==================================================================
+  (string) name           : 設定したい name, id 属性
+  (string) addClass       : 設定したい class 属性
+  (string) placeholder    : placeholder の設定する文字列
+  (string) type           : input または textarea を指定
+  (string) typeDetail     : type で input を指定した際の type属性を設定
+
+mixin formInput(name="", addClass="", placeholder="", type="input", typeDetail="text")
+  if type === "input"
+    <input type="#{typeDetail}" name="#{name}" id="#{name}" class="#{addClass}" placeholder="#{placeholder}" value="<?php echo htmlspecialchars($#{name}); ?>">
+  else if type === "textarea"
+    <textarea name="#{name}" id="#{name}" class="#{addClass}" placeholder="#{placeholder}" cols="30" rows="10"><?php echo htmlspecialchars($#{name}); ?></textarea>
+
+
+//- ================================================================
+    formItem
+  ==================================================================
+  (string) name       : 設定したい name, id 属性
+  (string) addClass   : 設定したい class 属性
+  (array) contents    : 生成される要素に設定したい文字列
+  (string) type       : radio または checkbox を指定
+
+mixin formItem(name="", addClass="", contents="", type="radio")
+  if contents === ""
+    - var contents = ['サンプルテキスト']
+  each content, index in contents
+    <label for="#{name+'_'+index}" class="#{addClass}">
+      <input type="#{type}" id="#{name+'_'+index}" name="#{name}" value="#{content}" <?php if($#{name}=="#{content}") { echo 'checked';} ?> />
+      <span>#{content}</span>
+    </label>
+
+
+//- ================================================================
+    analyticsTag
+  ==================================================================
+  (string) id       : 設定したい　トラッキング ID
+
+mixin analyticsTag(id='',id2='')
+  if id != ''
+    // Global site tag (gtag.js) - Google Analytics
+    <script async src="https://www.googletagmanager.com/gtag/js?id=#{id}"></script>
+    script
+      | window.dataLayer = window.dataLayer || [];
+      | function gtag(){dataLayer.push(arguments);}
+      | gtag('js', new Date());
+      | gtag('config', '#{id}');
+      if id2 != ''
+        | gtag('config', '#{id2}');
+

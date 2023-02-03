@@ -1,0 +1,98 @@
+@use "01_config" as *;
+@use "02_mixin" as *;
+
+/*-------------------------------------------------------------------------------
+  body global
+--------------------------------------------------------------------------------*/
+body {
+  background: $bk-color;
+  color: $font-color;
+  @include font-size($font-size);
+  font-family: $font-family;
+  line-height: $line-height;
+  overflow-x: hidden;
+
+  //@include media-query($sm) {
+  //overflow-x: hidden;
+  //}
+} // body
+
+/*-------------------------------------------------------------------------------
+  input button global
+--------------------------------------------------------------------------------*/
+/* buttonタグはGutenbergエディタを破壊するので除外 */
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+  @include btn_basic-input;
+} // input[type="submit"], input[type="reset"], input[type="button"]
+
+/*-------------------------------------------------------------------------------
+  input txet textarea global
+--------------------------------------------------------------------------------*/
+input[type="text"],
+input[type="tel"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="password"],
+input[type="number"],
+input[type="file"],
+textarea {
+  @include input_basic;
+} // input
+
+// selectタグのみglobalではないが記載（jsでform-selectクラス自動wrap）
+.select-form {
+  @include select_basic;
+} // .select-form
+
+input[type="radio"],
+input[type="checkbox"] {
+  vertical-align: middle;
+} // input[type="radio"], input[type="checkbox"]
+
+/*-------------------------------------------------------------------------------
+  img global
+--------------------------------------------------------------------------------*/
+img {
+  @include media-query($sm) {
+    width: 100%;
+    height: auto;
+  } // media-query($sm)
+} // img
+
+/*-------------------------------------------------------------------------------
+  link global
+--------------------------------------------------------------------------------*/
+a {
+  @include link_basic;
+  color: $link-color;
+} // a
+
+/*-------------------------------------------------------------------------------
+  table global
+--------------------------------------------------------------------------------*/
+table {
+  @include tbl_basic;
+} // table
+
+/*-------------------------------------------------------------------------------
+  text global
+--------------------------------------------------------------------------------*/
+strong,
+b {
+  font-weight: bold;
+} // strong, b
+
+em {
+  font-style: italic;
+} // em
+
+textarea,
+code,
+pre,
+kbd,
+samp {
+  font-family: $font-family;
+} // textarea, code, pre, kbd, samp

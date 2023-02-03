@@ -1,0 +1,91 @@
+@use "sass:math";
+@use "01_config" as *;
+
+/*-------------------------------------------------------------------------------
+  media-query
+--------------------------------------------------------------------------------*/
+@mixin media-query($size: $sm, $width: max, $orientation: false) {
+  @if $width == min {
+    $size: $size + 1px;
+  } // @if $width == min
+  @if $orientation == false {
+    @media (#{$width}-width: $size) {
+      @content;
+    } // @media (#{$width}-width: $size)
+  } @else {
+    @media (#{$width}-width: $size) and (orientation: $orientation) {
+      @content;
+    } // @media (#{$width}-width: $size)
+  }
+} // @mixin media-query($size: $sm, $width: max)
+
+/*-------------------------------------------------------------------------------
+  clearfix
+--------------------------------------------------------------------------------*/
+@mixin clearfix {
+  &:after {
+    content: "";
+    display: block;
+    clear: both;
+  } // &:after
+} // clearfix
+
+/*-------------------------------------------------------------------------------
+  font-size
+--------------------------------------------------------------------------------*/
+@mixin font-size($pixel) {
+  font-size: $pixel + px;
+  font-size: (calc($pixel / $root-font-size)) * 1rem;
+} // font-size
+
+/*-------------------------------------------------------------------------------
+  webfont
+--------------------------------------------------------------------------------*/
+@mixin webfont($fontName) {
+  @font-face {
+    font-family: "{$fontName}";
+    src: url("{$fontName}.eot"); /* IE9 Compat Modes */
+    src: local("{$fontName} Regular"), /* フォントがローカルにインストールされている場合に有効 */ url("{$fontName}.eot?#iefix") format("embedded-opentype"), /* eof - IE6-IE8 */ url("{$fontName}.woff") format("woff"), /* woff - Modern Browsers */ url("{$fontName}.ttf") format("truetype"), /* ttf - Safari, Android, iOS */ url("{$fontName}.svg#svgFontName") format("svg"); /* svg - Legacy iOS */
+  } // @font-face
+} // @mixin webfont($fontName)
+
+/*-------------------------------------------------------------------------------
+  gradient
+--------------------------------------------------------------------------------*/
+@mixin gradient($startColor, $endColor, $orientation: ttob) {
+  background: $startColor;
+  @if $orientation == ttob {
+    background: -webkit-linear-gradient(top, #{$startColor} 0%, #{$endColor} 100%);
+    background: linear-gradient(to bottom, #{$startColor} 0%, #{$endColor} 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{$startColor}', endColorstr=' #{$endColor}', GradientType=0);
+  } @else if $orientation == ltor {
+    background: -webkit-linear-gradient(right, #{$startColor} 0%, #{$endColor} 100%);
+    background: linear-gradient(to right, #{$startColor} 0%, #{$endColor} 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{$startColor}', endColorstr=' #{$endColor}', GradientType=1);
+  } // @if $orientation == ttob
+} // @mixin gradient($startColor, $endColor, $orientation: ttob)
+
+/*-------------------------------------------------------------------------------
+  gutenberg color palette
+--------------------------------------------------------------------------------*/
+@mixin color-palette($samelevel: true) {
+  @each $class, $color in $color-palette {
+    @if $samelevel == true {
+      &.has-#{$class}-background-color {
+        background-color: $color;
+      } // .has-#{$class}-background-color
+
+      &.has-#{$class}-color {
+        color: $color;
+      } // .has-#{$class}-color
+    } @else {
+      .has-#{$class}-background-color {
+        background-color: $color;
+      } // .has-#{$class}-background-color
+
+      .has-#{$class}-color {
+        color: $color;
+      } // .has-#{$class}-color
+    } // @else
+  } // @each
+} // @mixin color-palette

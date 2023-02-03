@@ -1,0 +1,130 @@
+//- ＜＜お問い合わせフォーム用システム（確認・送信側）＞＞
+
+//- 各メールアドレス設定
+-
+  var toAdministrator = infoMailAddress;     //- _config.pug で設定した 管理者向けメールの送信先の変数を設定
+  var sender          = senderMailAddress;   //- _config.pug で設定した 送信元メールアドレスの変数を設定
+
+
+//- システム設定用変数（※ 触らない）
+if companyFax != ''
+  - var companyFax = '/ FAX: ' + companyFax
+
+//- =================================================================================================
+    システム本体
+  ===================================================================================================
+.
+  <?php
+    session_save_path(dirname(__FILE__).'/sess');
+    ini_set("display_errors", 1);
+    mb_language("ja");
+    mb_internal_encoding("UTF-8");
+    session_start();
+
+    $name = "";
+    $tel = "";
+    $mail = "";
+    $content = "";
+
+    $security = "";
+    $send = "";
+
+    $comment = "";
+
+    $result_message = "";
+    $is_error = true;
+
+    foreach ($_SESSION as $key => $value) {
+      if (preg_match("/^/", $key)) {
+        $$key = $value;
+      }
+    }
+
+    foreach ($_POST as $key => $value) {
+        if (preg_match("/^/", $key)) {
+        $value = trim($value);
+        //$value = stripslashes($value);
+        $value = mb_convert_kana($value, "aKV", "UTF-8");
+            $_SESSION[$key] = $value;
+            $$key = $value;
+        }
+    }
+
+    // 不正にアクセスされた場合
+    if (!(isset($_SERVER["HTTP_REFERER"]) && strstr($_SERVER["HTTP_REFERER"], $_SERVER["HTTP_HOST"]) && $security == session_id())) {
+      session_destroy();
+      $_SESSION = array();
+      setcookie("PHPSESSID", "", time()-3600, "/");
+      header("Location: contact.php");
+      exit();
+    }
+
+    // メールの送信処理
+    if (isset($send) && strlen($send) > 0) {
+      unset($_SESSION["send"]);
+      $comment = str_replace(array("\r\n", "\r", "\n"), "\n", $comment);
+
+      // 会社名
+      $customer_name_base = "#{customerName}";
+
+      // 送信メール内容
+      $message_base = <<<EOS
+
+
+  ■お名前
+  {$name}　様
+
+  ■メールアドレス
+  {$mail}
+
+  ■電話番号
+  {$tel}
+
+  ■お問い合わせ内容
+  {$content}
+
+
+  ──────────────────────────────────────────────────────
+
+  {$customer_name_base}
+
+  TEL: #{companyTel} #{companyFax}
+  〒#{companyZip} #{companyAddress}
+
+  ──────────────────────────────────────────────────────
+
+  EOS;
+
+      $to1 = "#{toAdministrator}";
+      $header1 = sprintf("From: %s", $mail);
+      $subject1 = "お問い合わせを受け付けました。";
+      $message1 = "以下の内容でお問い合わせを受け付けました。";
+
+      $body1 = $message1.$message_base;
+
+      $header2 = sprintf("From: %s<#{sender}>", mb_encode_mimeheader(mb_convert_encoding($customer_name_base, "ISO-2022-JP", "UTF-8")));
+
+      // 入力者へ送信するメールの設定
+      $message2 =  <<<EOS
+  {$customer_name_base}へのお問い合わせありがとうございます。
+  以下の内容でお問い合わせを受け付けました。
+  EOS;
+      $body2 = $message2.$message_base;
+      $subject2 = "お問い合わせありがとうございます。";
+
+      // メールの送信
+      if (mb_send_mail($to1, $subject1, $body1, $header1) && mb_send_mail($mail, $subject2, $body2, $header2)) {
+        $is_error = false;
+
+        session_destroy();
+        $_SESSION = array();
+        setcookie("PHPSESSID", "", time()-3600, "/");
+
+        $result_message = '<p class="txt_contact_send_01">お問い合わせ内容の送信が完了いたしました。<br>内容を確認した上でメール、またはお電話にてご連絡いたします。<br />数日たっても返答のない場合は、お手数ですが、お電話でその旨お問い合わせください。 </p>';
+      }
+      else {
+        $result_message = "<div class=\"txt_submit_err\"><p><span class=\"red\">エラーが発生しました。</span></p>\n</div>";
+      }
+
+    }
+  ?>
