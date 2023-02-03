@@ -3,19 +3,9 @@
 /*-------------------------------------------------------------------------------
   font setting
 --------------------------------------------------------------------------------*/
-$root-font-size: 16;
-$font-family: "ヒラギノ角ゴシック Pro", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, sans-serif;
-$font-size: 14;
-$line-height: 1.8;
 
-// Gutenberg カスタムフォントサイズ function.php のサイズと同期要
-$font-sizes: (
-  "x-small": 10,
-  "small": 12,
-  "regular": $font-size,
-  "large": 24,
-  "x-large": 36,
-);
+$font-sub-family: "", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, sans-serif;
+
 
 /*-------------------------------------------------------------------------------
   contents size
@@ -87,3 +77,20 @@ $color-palette: (
 );
 
 $opacity: 0.6;
+
+/* -------------------------------------------------------------------------------
+  コンパイルされるように
+-------------------------------------------------------------------------------- */
+$root-font-size: 16;
+$font-family: "ヒラギノ角ゴシック Pro", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, sans-serif;
+$font-size: 14;
+$line-height: 1.8;
+
+// Gutenberg カスタムフォントサイズ function.php のサイズと同期要
+$font-sizes: (
+  "x-small": 10,
+  "small": 12,
+  "regular": $font-size,
+  "large": 24,
+  "x-large": 36,
+);

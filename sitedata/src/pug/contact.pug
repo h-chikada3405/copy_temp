@@ -1,0 +1,152 @@
+extends master/_body.pug
+
+//- =================================================================================================
+    variable（このページで使う変数を設定）
+  ===================================================================================================
+block variable
+  -
+    var pageNumber = 6 //- ページナンバー（※ inc/_variable.pug 参照）
+
+//- =================================================================================================
+    include（このページのみに読み込ませたい外部ファイルを記述）
+  ===================================================================================================
+block include
+
+
+//- =================================================================================================
+    readfiles（このページのみで使用したい css, script を記述）
+  ===================================================================================================
+block readfiles
+
+
+//- =================================================================================================
+    header（このページのみで使用したい header を記述）
+  ===================================================================================================
+block header
+  include template/_header
+
+
+//- =================================================================================================
+    footer（このページのみで使用したい footer を記述）
+  ===================================================================================================
+block footer
+  include template/_footer
+
+
+//- =================================================================================================
+    content（コンテンツを設定　※<div class="main"></div> の内側へ挿入されます。）
+  ===================================================================================================
+block content
+  section 
+    .contact-block 
+      h2.contact_ttl.cmn-ttl_01
+        span contact
+        span お電話でのお問い合わせ
+      .contact-item 
+        a(href="tel:" + companyTel).contact-tel #{companyTel}
+        p.contact-time 受付時間｜
+  section 
+    .contact-form_block 
+      h2.contact-form_ttl.cmn-ttl_01
+        span contact form
+        span お問い合わせフォーム
+      p.contact-form_txt 下記フォームに必要事項を入力後、
+        br.sp_only
+        |「送信内容を確認」ボタンを押してください。 
+        br
+        |2〜3営業日以内にこちらより
+        br.sp_only
+        |ご連絡させていただきます。
+      form#FormArea.is-script-on.check_form-area
+
+        //- wordpressの場合は以下を張り付ける
+
+        <h2 class="contact-form_ttl cmn-ttl_01"><span>contact form</span><span>お問い合わせフォーム</span></h2>
+        <p class="contact-form_txt">下記フォームに必要事項を入力後、<br class="sp_only">「送信内容を確認」ボタンを押してください。 <br>2〜3営業日以内にこちらより<br class="sp_only">ご連絡させていただきます。</p>              
+        <div class="form-wrapper">
+          <div class="form-inner">
+
+            //- フォームテーブル
+            <table class="form-table">
+              <tbody>
+                <tr>
+                  <th>
+                    <label for="radio">お問い合わせ項目</label><span class="attached-text type-required">必須</span>
+                  </th>
+                  <td><span class="radio-area check_required">[mwform_radio name="que" class="" id="que" children=", , ,"]</span></td>
+                </tr>
+                <tr>
+                  <th>
+                    <label for="name">お名前</label><span class="attached-text type-required">必須</span>
+                  </th>
+                  <td>
+                    [mwform_text name="name" id="name" class="check_required check_real-time" size="60" placeholder="山田　太郎"] 
+                  </td>
+                </tr>
+                <tr>
+                  <th>
+                    <label for="kana">ふりがな</label><span class="attached-text type-required">必須</span>
+                  </th>
+                  <td>
+                    [mwform_text name="kana" id="kana" class="check_required check_kana" size="60" placeholder="やまだ　たろう"]
+                  </td>
+                </tr>
+                <tr>
+                  <th>
+                    <label for="mail">メールアドレス</label><span class="attached-text type-required">必須</span>
+                  </th>
+                  <td>
+                    [mwform_text name="mail" id="mail" class="check_required check_mail" size="60" placeholder="example@example.co.jp" conv_half_alphanumeric="true"]
+                  </td>
+                </tr>
+                <tr>
+                  <th>
+                    <label for="tel">電話番号</label>
+                  </th>
+                  <td>
+                    [mwform_text name="tel" id="tel" class="check_tel" size="60" conv_half_alphanumeric="true"]
+                  </td>
+                </tr>
+                <tr>
+                  <th>
+                    <label for="content">お問い合わせ内容</label><span class="attached-text type-required">必須</span>
+                  </th>
+                  <td>
+                    [mwform_textarea name="content" id="content" class="check_required" cols="30" rows="10" placeholder=""]
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            //- プライバシーポリシー
+            <div class="unit-privacy">
+              <p class="privacy-title"><span class="text">プライバシーポリシーについてご確認の上、<br class="sp_only">チェックをお願いします。</span></p>
+              <p class="privacy-contents"><span class="privacy-text"><span class="text-highlight01">プライバシーポリシー</span><br><span class="text-highlight02">１ 個人情報の定義</span>本プライバシーポリシーにおける、「個人情報」とは、個人情報の保護に関する法律規定される「個人情報」を指します。</p>
+            </div>
+
+            //- 同意ボタン
+            <div class="privacy-agree check_required">
+              <label class="form-item_checkbox">
+                [mwform_checkbox name="agree" id="agree" children="プライバシーポリシーに同意する" separator=","] 
+              </label>
+              <div style="display: none;">
+                <input type="text" name="your-emailaddress" autocomplete="nope">
+              </div>
+            </div>
+          </div>
+
+          //- お問い合わせボタン
+          <div class="form-btn_area check_submit">
+            <div class="cmn-btn is-back">
+              [mwform_bback class="cmn_btn_01 contact_btn" value="back"] 戻る
+              [/mwform_bback]
+            </div>
+            <div class="cmn-btn">
+              [mwform_bconfirm class="contact_btn" value="confirm" name=""] 送信内容を確認
+            </div>
+            <div class="cmn-btn is-send">
+              [mwform_bsubmit name="submit" class="contact_btn is_submit_btn" value="send"] 送信する
+              [/mwform_bsubmit]
+            </div>
+          </div>
+        </div>
